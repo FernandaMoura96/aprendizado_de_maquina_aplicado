@@ -58,3 +58,4 @@ tree.plot_tree(arvore_d2,
                feature_names=['cerveja'],
                filled= True)
 # %%
+                                                                                              
