@@ -25,7 +25,16 @@ reg =linear_model.LogisticRegression(penalty=None,
                                      )
 reg.fit(df[['cerveja']], df['aprovado'])
 reg_predict = reg.predict(df[['cerveja']].drop_duplicates())
-reg_predict
+reg_proba = reg.predict_proba(df[['cerveja']].drop_duplicates())[:,1]
 
+plt.plot(df['cerveja'], df['aprovado'], 'o', color = 'blue')
+plt.grid(True)
+plt.title("Cerveja VS Aprovação")
+plt.xlabel('Cervejas')
+plt.ylabel('Aprovado')
+plt.plot(df['cerveja'].drop_duplicates(), reg_predict,  color ='tomato')
+plt.plot(df['cerveja'].drop_duplicates(), reg_proba,  color ='red')
+plt.hlines(0.5,xmin=1, xmax=9, linestyles= '--', colors= 'black')
 
+plt.legend(["Observação", 'Reg Predict',  'Reg Proba'])
 # %%
