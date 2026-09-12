@@ -1,6 +1,6 @@
 # 🧠 Aprendizado de Máquina Aplicado
 
-Repositório de estudos práticos em **Machine Learning**, desenvolvido durante o curso de Machine Learning do [Téo Me Why](https://www.youtube.com/@TeoMeWhy). Reúne implementações de algoritmos de regressão, classificação e árvores de decisão aplicados a datasets didáticos, com foco em construir intuição sobre como cada modelo aprende, generaliza e se comporta diante de overfitting.
+Repositório de estudos práticos em **Machine Learning**, desenvolvido durante o curso de Machine Learning do [Téo Me Why](https://www.youtube.com/@TeoMeWhy). Reúne implementações de algoritmos de regressão, classificação e árvores de decisão aplicados a datasets didáticos, com foco em construir intuição sobre como cada modelo aprende, generaliza e se comporta diante de dificuldades de aprendizagem.
 
 ## 🎯 Sobre o projeto
 
