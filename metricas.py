@@ -75,6 +75,46 @@ matriz
 
 (df_predict['predict_arvore'] == 1 ) .sum()
 # %%
+# arquivo csv usado para validação dos dados no sheets 
+
 df_predict.to_csv('predict.csv', sep = ';' , index= False)
 
+# %%
+ from sklearn import metrics
+
+acc_arvore = metrics.accuracy_score(df_predict['pessoa feliz'], df_predict['predict_arvore'])
+acc_arvore
+
+precisao_arvore = metrics.precision_score(df_predict['pessoa feliz'], df_predict['predict_arvore'])
+precisao_arvore
+
+recall_arvore = metrics.recall_score(df_predict['pessoa feliz'], df_predict['predict_arvore'])
+roc = metrics.roc_curve(df_predict['pessoa feliz'], df_predict['predict_arvore'])
+roc
+
+
+
+# %%
+import matplotlib.pyplot as plt 
+
+plt.plot(roc[0],roc[1])
+# %%
+
+
+#  (pegando a probabilidade da classe 1):
+arvore_probs = arvore.predict_proba(X)[:, 1]
+
+#cauculando  curva ROC com as probabilidades:
+fpr, tpr, thresholds = metrics.roc_curve(df_predict['pessoa feliz'], arvore_probs)
+
+# Plot
+import matplotlib.pyplot as plt 
+plt.figure(figsize=(6, 6))
+plt.plot(fpr, tpr, label='Árvore de Decisão')
+plt.plot([0, 1], [0, 1], 'k--', label='Aleatório') # Linha de referência diagonal
+plt.xlabel('Taxa de Falsos Positivos (1 - Especificidade)')
+plt.ylabel('Taxa de Verdadeiros Positivos (Sensibilidade)')
+plt.title('Curva ROC')
+plt.legend()
+plt.show()
 # %%
