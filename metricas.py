@@ -52,8 +52,12 @@ arvore_predict
 
 df_predict = df_analise[['pessoa feliz']]
 df_predict['predict_arvore'] = arvore_predict
+
+df_predict['proba_arvore'] = arvore.predict_proba(X)[:, 1]
+
 df_predict
 
+df_predict.to_csv("predict.csv", sep=';', index=False)
 # %%
 # arvore demonstra 86,26% de acerto
 #ACURÁCIA = MOSTRA O QUANTO ESTA CORRETO, MAS NÃO MOSTRA
@@ -62,58 +66,26 @@ df_predict
 
  
 (df_predict['pessoa feliz'] == df_predict['predict_arvore']).mean()
-# %%
 
-#MATRIZ DE CONFUSÃO 
-
-matriz = pd.crosstab(df_predict['pessoa feliz'], df_predict['predict_arvore'])
-matriz 
-
-# o zero representa o verdadeiro valor na base 
-#%%
-(df_predict['pessoa feliz'] == 1 ) .sum()
-
-(df_predict['predict_arvore'] == 1 ) .sum()
-# %%
-# arquivo csv usado para validação dos dados no sheets 
 
 df_predict.to_csv('predict.csv', sep = ';' , index= False)
 
 # %%
- from sklearn import metrics
+from sklearn import metrics
 
 acc_arvore = metrics.accuracy_score(df_predict['pessoa feliz'], df_predict['predict_arvore'])
-acc_arvore
-
 precisao_arvore = metrics.precision_score(df_predict['pessoa feliz'], df_predict['predict_arvore'])
-precisao_arvore
-
 recall_arvore = metrics.recall_score(df_predict['pessoa feliz'], df_predict['predict_arvore'])
-roc = metrics.roc_curve(df_predict['pessoa feliz'], df_predict['predict_arvore'])
-roc
-
+roc_arvore = metrics.roc_curve(df_predict['pessoa feliz'], df_predict['proba_arvore'])
+auc_arvore = metrics.roc_auc_score(df_predict['pessoa feliz'], df_predict['proba_arvore'])
 
 
 # %%
 import matplotlib.pyplot as plt 
-
-plt.plot(roc[0],roc[1])
-# %%
-
-
-#  (pegando a probabilidade da classe 1):
-arvore_probs = arvore.predict_proba(X)[:, 1]
-
-#cauculando  curva ROC com as probabilidades:
-fpr, tpr, thresholds = metrics.roc_curve(df_predict['pessoa feliz'], arvore_probs)
-
-# Plot
-import matplotlib.pyplot as plt 
-plt.figure(figsize=(6, 6))
-plt.plot(fpr, tpr, label='Árvore de Decisão')
-plt.plot([0, 1], [0, 1], 'k--', label='Aleatório') # Linha de referência diagonal
+plt.figure(dpi=400)
+plt.plot(roc_arvore[0], roc_arvore[1])
 plt.xlabel('Taxa de Falsos Positivos (1 - Especificidade)')
-plt.ylabel('Taxa de Verdadeiros Positivos (Sensibilidade)')
+plt.ylabel('Taxa de Verdadeiros Positivos (Recall)')
 plt.title('Curva ROC')
 plt.legend()
 plt.show()
