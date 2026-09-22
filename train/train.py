@@ -26,6 +26,7 @@ target = 'flagChurn'
 
 X , y = df_train[features], df_train[target]
 # %%
+#SAMPLE
 from sklearn import model_selection 
 
 X_train, X_test, y_train,y_test = model_selection.train_test_split(X,y,random_state=42,
@@ -34,7 +35,21 @@ X_train, X_test, y_train,y_test = model_selection.train_test_split(X,y,random_st
                                                                    #tamanho do teste 
                                                                    # #vai variar de acordo com o tam da base
 )
-#%%
+
 print("Target train ", y_train.mean())
 print("Target ttest ", y_test.mean())
+# %%
+
+#Explore Missing 
+
+X_train.isna().sum().sort_values(ascending= False)
+
+
+# %%
+
+df_analise = X_train
+df_analise[target] = y_train
+sumario = df_analise.groupby(by=target).agg(['mean','median']).T
+sumario 
+
 # %%
