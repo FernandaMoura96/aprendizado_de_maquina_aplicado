@@ -19,7 +19,7 @@ df_train['dtRef']
 #oque é variavel e oque é target. 
 
 df_train.head()
-features = df_train.columns[2:-1]
+features = df_train.columns[2:-2]
 target = 'flagChurn'
 
 #definindo x e y 
@@ -47,9 +47,27 @@ X_train.isna().sum().sort_values(ascending= False)
 
 # %%
 
-df_analise = X_train
+df_analise = X_train.copy()
 df_analise[target] = y_train
 sumario = df_analise.groupby(by=target).agg(['mean','median']).T
-sumario 
+#aumentando a quantidade de linhas a sereme exibidas
+#pd.set_option('display.max_rows', 500)
+#print(sumario)
+sumario
 
+# %%
+sumario['diff_abs'] = sumario[0] - sumario[1]
+sumario['diff_rel'] = sumario[0] / sumario[1]
+sumario.sort_values(by=['diff_rel'], ascending=False)
+# %%
+from sklearn import tree
+import matplotlib.pyplot as plt 
+
+arvore = tree.DecisionTreeClassifier(random_state=42,)
+arvore.fit(X_train, y_train)
+
+#usando a arvore para definir a importancia de cada variavel 
+arvore.feature_importances_
+# %%
+pd.Series(arvore.feature_importances_, index=X_train.columns).sort_values(ascending=False)
 # %%
